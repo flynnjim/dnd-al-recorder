@@ -1,6 +1,6 @@
 const {User, Character} = require("../files/index")
 
-describe("dnd al recorder", () => {
+describe("dnd al recorder - User and Character classes", () => {
     describe("User class", () => {
         it("class User name initiliased with argument passed or default if not passed a value", () => {
             const newUser = new User()
@@ -40,7 +40,6 @@ describe("dnd al recorder", () => {
             expect(newUser.genericNum()).toBe(4)
             newUser.addCharacter("Randy Garlic", "Divine Soul Sorcerer")
             expect(newUser.genericNum()).toBe(4)
-
         })
         it("generiNum method used to change characters name generated", () => {
             const newUser = new User()
@@ -51,13 +50,26 @@ describe("dnd al recorder", () => {
             expect(newUser.storage[1].name).toBe("character2")
             expect(newUser.storage[2].name).toBe("character3")
             expect(newUser.storage[3].name).toBe("character4")
-            console.log(newUser.storage)
-
         })
         it("changeName - method to change user name", () => {
             const newUser = new User()
             newUser.changeName("Flynn")
             expect(newUser.name).toBe("Flynn")
+        })
+        it("addHours - method adds dungeon master hours", () => {
+            const newUser = new User()
+            newUser.addHours(10)
+            expect(newUser.dungeonMasterHours).toBe(10)
+        })
+        it("spendHours - reduces dungeon master hours, unless not enough hours in which case error message", () => {
+            const newUser = new User()
+            const logSpy = jest.spyOn(global.console, "log")
+            newUser.addHours(10)
+            newUser.spendHours(5)
+            expect(newUser.dungeonMasterHours).toBe(5)
+            newUser.spendHours(10)
+            expect(newUser.dungeonMasterHours).toBe(5)
+            expect(logSpy).toHaveBeenCalledWith("You do not have enough dungeon master hours for that!")
         })
     })
     describe("Character class", () => {
@@ -81,7 +93,39 @@ describe("dnd al recorder", () => {
             expect(newCharTwo.downtimeDays).toBe(20)
             expect(newCharTwo.gold).toBe(13500)
         })
+        it("changeName - changes character name", () => {
+            const newChar = new Character()
+            newChar.changeName("Wolby")
+            expect(newChar.name).toBe("Wolby")
+        })
+        it("changeClass - changes class of character with input argument", () => {
+            const newChar = new Character("Randy Garlic", "Monk", 10, 50, 10000)
+            newChar.updateClass("Divine Soul Sorcerer")
+            expect(newChar.charClass).toBe("Divine Soul Sorcerer")
+        })
+        it("addLevel - adds a singl level if invoked without an argument, or the number if passed an argument", () => {
+            const newChar = new Character("Randy Garlic", "Sorcerer")
+            newChar.addLevel()
+            expect(newChar.level).toBe(2)
+            newChar.addLevel(8)
+            expect(newChar.level).toBe(10)
+        })
+        it("addDowntimeDays - adds donwtime days, default value or number passed", () => {
+            const newChar = new Character("Ghrag Rak Iron Fingers", "Way of Mercy Monk")
+            newChar.addDowntimeDays()
+            expect(newChar.downtimeDays).toBe(10)
+            newChar.addDowntimeDays(5)
+            expect(newChar.downtimeDays).toBe(15)
+        })
+        it("spendDowntimeDays - removes downtime days based on passed arguments. Error message of there are not enough downtime days", () => {
+            const newChar = new Character("Greqial Klaqa Rikkaarr", "Circle of Moon Druid", 10, 30, 6000)
+            newChar.spendDowntimeDays(20)
+            expect(newChar.downtimeDays).toBe(10)
+            const logSpy = jest.spyOn(global.console, "log")
+            newChar.spendDowntimeDays(20)
+            expect(logSpy).toHaveBeenCalledWith("You do not have enough downtime days for that!")
+
+            
+        })
     })
-
-
 })

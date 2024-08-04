@@ -16,8 +16,19 @@ class User {
         return genericArray.length
 
     }
-    changeName(name) {
-        this.name = name
+    changeName(newName) {
+        this.name = newName
+    }
+
+    addHours(hours) {
+        this.dungeonMasterHours += hours
+    }
+    spendHours(hours) {
+        if (this.dungeonMasterHours - hours >= 0) {
+            this.dungeonMasterHours -= hours
+        } else {
+            console.log("You do not have enough dungeon master hours for that!")
+        }
     }
 } 
 
@@ -30,6 +41,26 @@ class Character {
         this.downtimeDays = typeof downtimeDays === "undefined" ? 0 : downtimeDays
         this.gold = typeof gold === "undefined" ? 0 : gold
 
+    }
+    changeName(newName) {
+        this.name = newName
+    }
+    updateClass(newClass) {
+        this.charClass = newClass
+    }
+    addLevel(levelUps) {
+        this.level += typeof levelUps === "undefined" ? 1 : levelUps
+    }
+    addDowntimeDays(daysToAdd) {
+        this.downtimeDays += typeof daysToAdd === "number" ? daysToAdd : 10
+    }
+    spendDowntimeDays(daysToSpend) {
+        if (this.downtimeDays - daysToSpend >= 0) {
+           this.downtimeDays -= daysToSpend 
+        } else {
+            console.log("You do not have enough downtime days for that!")
+        }
+        
     }
 }
 
