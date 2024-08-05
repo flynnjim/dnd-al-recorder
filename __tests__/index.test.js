@@ -12,7 +12,14 @@ describe("dnd al recorder - User and Character classes", () => {
             const newUser = new User()
             expect(Array.isArray(newUser.storage)).toBe(true)
             expect(newUser.storage).toEqual([])
-
+        })
+        it("User initiliased with message stating a new user has been created", () => {
+            const logSpy = jest.spyOn(global.console, "log")
+            const newUser = new User("Flynn")
+            expect(logSpy).toHaveBeenCalledWith("New user Flynn has been created!")
+            const newUserTwo = new User("Betty")
+            expect(logSpy).toHaveBeenCalledWith("New user Betty has been created!")
+        
         })
         it("class User initialised with default DM hours or passed value", () => {
             const newUserOne = new User()
@@ -25,6 +32,14 @@ describe("dnd al recorder - User and Character classes", () => {
             newUser.addCharacter()
             newUser.addCharacter("Wolby Wizzle", "Circle of Moon Druid", 10, 20, 13500)
             expect(newUser.storage[0]).toBeInstanceOf(Character)
+        })
+        it("add character method sends message that character has been created", () => {
+            const newUser = new User("Flynn")
+            const logSpy = jest.spyOn(global.console, "log")
+            newUser.addCharacter("Randy Garlic", "Divine Soul Sorcerer", 10, 40, 5000)
+            expect(logSpy).toHaveBeenCalledWith("You have created: Randy Garlic, a level 10 Divine Soul Sorcerer with 40 downtime days and 5000 gold.")
+            newUser.addCharacter("Wolby", "Druid", 10, 30, 500)
+            expect(logSpy).toHaveBeenCalledWith("You have created: Wolby, a level 10 Druid with 30 downtime days and 500 gold.")
         })
         it("genericNum - calculate method for number of generic characters", () => {
             const newUser = new User()
@@ -56,10 +71,27 @@ describe("dnd al recorder - User and Character classes", () => {
             newUser.changeName("Flynn")
             expect(newUser.name).toBe("Flynn")
         })
+        it("changeName method sends message detailing changes", () => {
+            const newUser = new User("Betty")
+            const logSpy = jest.spyOn(global.console, "log")
+            newUser.changeName("Flynn")
+            expect(logSpy).toHaveBeenCalledWith("User Betty changed their username to Flynn.")
+            newUser.changeName("Lyra")
+            expect(logSpy).toHaveBeenCalledWith("User Flynn changed their username to Lyra.")
+        })
         it("addHours - method adds dungeon master hours", () => {
             const newUser = new User()
             newUser.addHours(10)
             expect(newUser.dungeonMasterHours).toBe(10)
+        })
+        it("addHours sends user message with details added and new balance", () => {
+            const newUser = new User("Flynn", 10)
+            const logSpy = jest.spyOn(global.console, "log")
+            newUser.addHours(10)
+            expect(logSpy).toHaveBeenCalledWith("User Flynn has added 10 Dungeon Master hours and now has 20 Dungeon Master Hours.")
+            newUser.changeName("Michael")
+            newUser.addHours(25)
+            expect(logSpy).toHaveBeenCalledWith("User Michael has added 25 Dungeon Master hours and now has 45 Dungeon Master Hours.")
         })
         it("spendHours - reduces dungeon master hours, unless not enough hours in which case error message", () => {
             const newUser = new User()
@@ -70,6 +102,15 @@ describe("dnd al recorder - User and Character classes", () => {
             newUser.spendHours(10)
             expect(newUser.dungeonMasterHours).toBe(5)
             expect(logSpy).toHaveBeenCalledWith("You do not have enough dungeon master hours for that!")
+        })
+        it("spendHours - sends user message of the changes made", () => {
+            const newUser = new User("Flynn", 50)
+            const logSpy = jest.spyOn(global.console, "log")
+            newUser.spendHours(15)
+            expect(logSpy).toHaveBeenCalledWith("User Flynn has spent 15 Dungeon Master hours and now has 35 Dungeon Master Hours.")
+            newUser.changeName("Betty")
+            newUser.spendHours(20)
+            expect(logSpy).toHaveBeenCalledWith("User Betty has spent 20 Dungeon Master hours and now has 15 Dungeon Master Hours.")
         })
     })
     describe("Character class", () => {
