@@ -18,7 +18,15 @@ class User {
         return genericArray.length
 
     }
-    findCharacter() {}
+    findCharacter(name) {
+        if (typeof name === "undefined") return []
+        for (let i = 0; i<this.storage.length;i++) {
+            if (this.storage[i].name === name) {
+                return this.storage[i]
+            }
+        }
+
+    }
     //findcharacter - uses regex to check partial name or character class
     changeName(newName) {
         let oldUsername = this.name

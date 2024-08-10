@@ -75,10 +75,29 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(newUser.storage[3].name).toBe("character4")
             })
         })
-        describe("findCharacter - User method to find character with input of character name or class", () => {
+        describe.only("findCharacter - User method to find character with input of character name or class", () => {
             it("User has findCharacter method", () => {
                 const newUser = new User()
                 expect(typeof newUser.findCharacter).toBe("function")
+            })
+            it("returns an empty array if passed no name", () => {
+                const newUser = new User()
+                newUser.addCharacter("Randy Garlic")
+                expect(newUser.findCharacter()).toEqual([])
+            })
+            it("sends user message if not passed valid input or cannot find a character", () => {
+                const logSpy = jest.spyOn(global.console, "log")
+            })
+            it("findCharacter returns character based on exact name passed for 1 character stored", () => {
+                const newUser = new User()
+                newUser.addCharacter("Randy Garlic")
+                expect(newUser.findCharacter("Randy Garlic")).toEqual(newUser.storage[0])
+            })
+            it("findCharacter returns character based on exact name passed for multiple character stored", () => {
+                const newUser = new User()
+                newUser.addCharacter("Wolby")
+                newUser.addCharacter("Randy Garlic")
+                expect(newUser.findCharacter("Randy Garlic")).toEqual(newUser.storage[1])
             })
         })
         describe("changeName - User method", () => {
