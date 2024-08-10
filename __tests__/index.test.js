@@ -75,6 +75,12 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(newUser.storage[3].name).toBe("character4")
             })
         })
+        describe("findCharacter - User method to find character with input of character name or class", () => {
+            it("User has findCharacter method", () => {
+                const newUser = new User()
+                expect(typeof newUser.findCharacter).toBe("function")
+            })
+        })
         describe("changeName - User method", () => {
 
             it("changeName - method to change user name", () => {
@@ -153,6 +159,18 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(newCharTwo.level).toBe(10)
                 expect(newCharTwo.downtimeDays).toBe(20)
                 expect(newCharTwo.gold).toBe(13500)
+            })
+            it("character initialised with empty array of permanent magic items", () => {
+                const newUser = new User()
+                newUser.addCharacter("Randy")
+                expect(Array.isArray(newUser.storage[0].magicItems)).toBe(true)
+                expect(newUser.storage[0].magicItems).toEqual([])
+            })
+            it("character initialised with empty array of consumable magic items", () => {
+                const newUser = new User
+                newUser.addCharacter()
+                expect(newUser.storage[0].consumables).toEqual([])
+                expect(Array.isArray(newUser.storage[0].consumables)).toBe(true)
             })
         })
         describe("changeName - Character method", () => {

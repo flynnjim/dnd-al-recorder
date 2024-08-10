@@ -18,6 +18,8 @@ class User {
         return genericArray.length
 
     }
+    findCharacter() {}
+    //findcharacter - uses regex to check partial name or character class
     changeName(newName) {
         let oldUsername = this.name
         this.name = newName
@@ -38,7 +40,7 @@ class User {
     }
 } 
 
-// need console log for character methods like user methods
+
 
 class Character {
     constructor(name, charClass, level, downtimeDays, gold, genNum) {
@@ -48,8 +50,10 @@ class Character {
         this.level = typeof level === "undefined" ? 1 : level
         this.downtimeDays = typeof downtimeDays === "undefined" ? 0 : downtimeDays
         this.gold = typeof gold === "undefined" ? 0 : gold
-        // magic items
-        // consumables
+        this.magicItems = []
+        this.consumables = []
+
+   
         console.log(`You have created: ${name}, a level ${level} ${charClass} with ${downtimeDays} downtime days and ${gold} gold.`)
 
     }
@@ -86,15 +90,24 @@ class Character {
         }
         
     }
+    
+    // find character method - part of user character class
+    
     // add gold
 
     //spend gold
 
     // add permanent magic items
 
+    // trade magical item --> magic item as its own class
+
     // add consumable magic items
 
     // trade magic items (maybe just nput one, minus another with third parameter with who tradedwith.)
+
+    // magic item class
+
+    //adventure class - includes all the AL recap info
 }
 
 module.exports = {User, Character}
