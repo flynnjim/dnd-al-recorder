@@ -6,7 +6,7 @@ describe("dnd al recorder - User and Character classes", () => {
 
             it("class User name initiliased with argument passed or default if not passed a value", () => {
                 const newUser = new User()
-                expect(newUser.name).toBe("new user1")
+                expect(newUser.name).toBe("user1")
                 const newUserTwo = new User("Flynn")
                 expect(newUserTwo.name).toBe("Flynn")
             })
@@ -18,10 +18,16 @@ describe("dnd al recorder - User and Character classes", () => {
             it("User initiliased with message stating a new user has been created", () => {
                 const logSpy = jest.spyOn(global.console, "log")
                 const newUser = new User("Flynn")
-                expect(logSpy).toHaveBeenCalledWith("New user Flynn has been created!")
+                expect(logSpy).toHaveBeenCalledWith("New user Flynn has been created with 0 dungeon master hours!")
                 const newUserTwo = new User("Betty")
-                expect(logSpy).toHaveBeenCalledWith("New user Betty has been created!")
+                expect(logSpy).toHaveBeenCalledWith("New user Betty has been created with 0 dungeon master hours!")
                 
+            })
+            it("User initiliased with message stating a new user has been created with default values", () => {
+                const logSpy = jest.spyOn(global.console, "log")
+                const newUser = new User("")
+                expect(logSpy).toHaveBeenCalledWith("New user user1 has been created with 0 dungeon master hours!")
+
             })
             it("class User initialised with default DM hours or passed value", () => {
                 const newUserOne = new User()
@@ -45,6 +51,14 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(logSpy).toHaveBeenCalledWith("You have created: Randy Garlic, a level 10 Divine Soul Sorcerer with 40 downtime days and 5000 gold.")
                 newUser.addCharacter("Wolby", "Druid", 10, 30, 500)
                 expect(logSpy).toHaveBeenCalledWith("You have created: Wolby, a level 10 Druid with 30 downtime days and 500 gold.")
+            })
+            it("add characetr method message uses default values for message if none entered", () => {
+                const newUser = new User("Flynn")
+                const logSpy = jest.spyOn(global.console, "log")
+                newUser.addCharacter()
+                expect(logSpy).toHaveBeenCalledWith("You have created: character1, a level 1 commoner with 0 downtime days and 0 gold.")
+                newUser.addCharacter("Wolby", "Druid")
+                expect(logSpy).toHaveBeenCalledWith("You have created: Wolby, a level 1 Druid with 0 downtime days and 0 gold.")
             })
         })
         describe("genericNum - User method", () => {
@@ -75,7 +89,7 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(newUser.storage[3].name).toBe("character4")
             })
         })
-        describe.only("findCharacter - User method to find character with input of character name or class", () => {
+        describe("findCharacter - User method to find character with input of character name or class", () => {
             it("User has findCharacter method", () => {
                 const newUser = new User()
                 expect(typeof newUser.findCharacter).toBe("function")
@@ -87,6 +101,12 @@ describe("dnd al recorder - User and Character classes", () => {
             })
             it("sends user message if not passed valid input or cannot find a character", () => {
                 const logSpy = jest.spyOn(global.console, "log")
+                const newUser = new User()
+                newUser.addCharacter("Randy")
+                newUser.findCharacter()
+                expect(logSpy).toHaveBeenCalledWith("Invalid input. You must enter a string for the search parameter!")
+                newUser.findCharacter("Wolby")
+                expect(logSpy).toHaveBeenCalledWith("Unable to find a character that matches the search parameters.")
             })
             it("findCharacter returns character based on exact name passed for 1 character stored", () => {
                 const newUser = new User()
@@ -99,6 +119,20 @@ describe("dnd al recorder - User and Character classes", () => {
                 newUser.addCharacter("Randy Garlic")
                 expect(newUser.findCharacter("Randy Garlic")).toEqual(newUser.storage[1])
             })
+            it("findCharacter returns character based on exact class match", () => {
+                const newUser = new User()
+                newUser.addCharacter("Wolby", "Druid")
+                newUser.addCharacter("Randy Garlic", "Divine Soul Sorcerer")
+                expect(newUser.findCharacter("Druid")).toEqual(newUser.storage[0])
+                expect(newUser.findCharacter("Divine Soul Sorcerer")).toEqual(newUser.storage[1])
+            })
+            it("findCharacter returns character based on partial name match, regardless of case", () => {
+                const newUser = new User()
+                newUser.addCharacter("Randy Garlic", "Divine Soul Sorcerer")
+                expect(newUser.findCharacter("Randy")).toEqual(newUser.storage[0])
+                expect(newUser.findCharacter("randy")).toEqual(newUser.storage[0])
+            })
+            
         })
         describe("changeName - User method", () => {
 

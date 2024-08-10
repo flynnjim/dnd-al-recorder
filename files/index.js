@@ -2,10 +2,10 @@
 //console logs for what happens each stage
 class User {
     constructor(name, dungeonMasterHours) {
-        this.name = typeof name === "undefined" ? "new user1" : name
+        this.name = typeof name === "undefined" || name === "" ? "user1" : name
         this.dungeonMasterHours = typeof dungeonMasterHours === "undefined" ? 0 : dungeonMasterHours
         this.storage = []
-        console.log(`New user ${name} has been created!`)
+        console.log(`New user ${this.name} has been created with ${this.dungeonMasterHours} dungeon master hours!`)
     }
     addCharacter(name, charClass, level, downtimeDays, gold) {
         const genNum = this.genericNum()
@@ -18,13 +18,23 @@ class User {
         return genericArray.length
 
     }
-    findCharacter(name) {
-        if (typeof name === "undefined") return []
-        for (let i = 0; i<this.storage.length;i++) {
-            if (this.storage[i].name === name) {
-                return this.storage[i]
-            }
+    findCharacter(searchParameter) {
+        if (typeof searchParameter === "undefined") { 
+            console.log("Invalid input. You must enter a string for the search parameter!")
+            return []
         }
+        const regex = /`${sear}/
+        // https://forum.freecodecamp.org/t/using-template-literal-inside-of-a-regex/454028/2
+        //https://stackoverflow.com/questions/494035/how-do-you-use-a-variable-in-a-regular-expression
+        for (let i = 0; i<this.storage.length;i++) {
+            const curCharacter = this.storage[i]
+
+            if (curCharacter.name === searchParameter || curCharacter.charClass === searchParameter)  {
+                return curCharacter
+            }
+
+        }
+        console.log("Unable to find a character that matches the search parameters.")
 
     }
     //findcharacter - uses regex to check partial name or character class
@@ -62,7 +72,7 @@ class Character {
         this.consumables = []
 
    
-        console.log(`You have created: ${name}, a level ${level} ${charClass} with ${downtimeDays} downtime days and ${gold} gold.`)
+        console.log(`You have created: ${this.name}, a level ${this.level} ${this.charClass} with ${this.downtimeDays} downtime days and ${this.gold} gold.`)
 
     }
     changeName(newName) {
