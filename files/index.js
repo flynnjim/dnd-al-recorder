@@ -107,10 +107,20 @@ class Character {
         }
         
     }
+    addGold(goldToAdd) {
+        if (typeof goldToAdd === "undefined") {
+            console.log("You need to specify how much gold to add!")
+        } else if (typeof goldToAdd !== "number") {
+            console.log("You must enter a number for the amount of gold to add!")
+        } else {
+            this.gold += goldToAdd
+            console.log(`${this.name} has added ${goldToAdd} gold and now has ${this.gold} gold!`)
+        }
+    }
+    spendGold(goldToSpend) {
+        this.gold -= goldToSpend
+    }
     
-    // find character method - part of user character class
-    
-    // add gold
 
     //spend gold
 

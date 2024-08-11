@@ -321,5 +321,34 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(logSpy).toHaveBeenCalledWith("You have not entered a number of downtime days to spend!")        
             })
         })
+        describe("addGold - method that adds gold to user", () => {
+            it("addGold - adds the amount of gold passed to character gold", () => {
+                const newChar = new Character("Greqial Klaqa Rikkaarr", "Circle of Moon Druid", 10, 30, 6000)
+                newChar.addGold(10)
+                expect(newChar.gold).toBe(6010)
+            })
+            it("addGold - method sends message to user with details of changes", () => {
+                const newChar = new Character("Greqial Klaqa Rikkaarr", "Circle of Moon Druid", 10, 30, 6000)
+                const logSpy = jest.spyOn(global.console, "log")
+                newChar.addGold(1000)
+                expect(logSpy).toHaveBeenCalledWith("Greqial Klaqa Rikkaarr has added 1000 gold and now has 7000 gold!")
+            })
+            it("addGold - method sends message if passed wrong data type or no argument", () => {
+                const newChar = new Character("Greqial Klaqa Rikkaarr", "Circle of Moon Druid", 10, 30, 6000)
+                const logSpy = jest.spyOn(global.console, "log")
+                newChar.addGold()
+                expect(logSpy).toHaveBeenCalledWith("You need to specify how much gold to add!")
+                newChar.addGold("23")
+                expect(logSpy).toHaveBeenCalledWith("You must enter a number for the amount of gold to add!")
+            })
+        })
+        describe("spendGold - method that removes gold from character", () => {
+            it("spendGold - removes specifed amount of gold from characetr", () => {
+                const newChar = new Character("Greqial Klaqa Rikkaarr", "Circle of Moon Druid", 10, 30, 6000)
+                newChar.spendGold(1000)
+                expect(newChar.gold).toBe(5000)
+            })
+            it("spendGold")
+        })
     })
 })
