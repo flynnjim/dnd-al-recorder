@@ -118,7 +118,18 @@ class Character {
         }
     }
     spendGold(goldToSpend) {
-        this.gold -= goldToSpend
+        if (goldToSpend > this.gold) {
+            console.log(`${this.name} does not have enough money for that!`)
+        } else if (typeof goldToSpend === "undefined") {
+            console.log("You need to specify how much gold to spend!")
+        } else if (typeof goldToSpend !== "number") {
+            console.log("You must enter a number for the amount of gold to spend!")
+        }
+        else {
+            const prevGold = this.gold
+            this.gold -= goldToSpend
+            console.log(`${this.name} had ${prevGold} gold, spent ${goldToSpend} gold and now has ${this.gold} gold`)
+        }
     }
     
 
