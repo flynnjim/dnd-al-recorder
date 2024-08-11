@@ -23,13 +23,12 @@ class User {
             console.log("Invalid input. You must enter a string for the search parameter!")
             return []
         }
-        const regex = /`${sear}/
-        // https://forum.freecodecamp.org/t/using-template-literal-inside-of-a-regex/454028/2
-        //https://stackoverflow.com/questions/494035/how-do-you-use-a-variable-in-a-regular-expression
+        const regex = new RegExp(`${searchParameter.toLowerCase()}`)
+        
         for (let i = 0; i<this.storage.length;i++) {
             const curCharacter = this.storage[i]
-
-            if (curCharacter.name === searchParameter || curCharacter.charClass === searchParameter)  {
+            
+            if (regex.test(curCharacter.name.toLowerCase()) || regex.test(curCharacter.charClass.toLowerCase()))  {
                 return curCharacter
             }
 
@@ -37,7 +36,7 @@ class User {
         console.log("Unable to find a character that matches the search parameters.")
 
     }
-    //findcharacter - uses regex to check partial name or character class
+
     changeName(newName) {
         let oldUsername = this.name
         this.name = newName

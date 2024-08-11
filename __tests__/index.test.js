@@ -132,6 +132,12 @@ describe("dnd al recorder - User and Character classes", () => {
                 expect(newUser.findCharacter("Randy")).toEqual(newUser.storage[0])
                 expect(newUser.findCharacter("randy")).toEqual(newUser.storage[0])
             })
+            it("findCharacter returns character based on partial class match, regardless of case", () => {
+                const newUser = new User()
+                newUser.addCharacter("Randy Garlic", "Divine Soul Sorcerer")
+                expect(newUser.findCharacter("Sorcerer")).toEqual(newUser.storage[0])
+                expect(newUser.findCharacter("divine")).toEqual(newUser.storage[0])
+            })
             
         })
         describe("changeName - User method", () => {
